@@ -19,4 +19,8 @@ ${DIR_SRCS}
 
 ADD_EXECUTABLE(${PROJECT_NAME} ${ustblogind})
 
+<<<<<<< HEAD
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} readline curl notify)
+=======
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} readline curl)
+>>>>>>> 89eec9300532da62f4c2234f225d676864f93d20

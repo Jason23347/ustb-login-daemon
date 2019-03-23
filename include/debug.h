@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#define DEBUG true
+#define DEBUG false
 
 #if (DEBUG == true)
 

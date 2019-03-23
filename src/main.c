@@ -49,19 +49,6 @@ int main(int argc, char *argv[])
 	/* TODO: no echoing when input password */
 	password = readline("password:");
 
-	/* gnome desktop notification */
-	notify_init("ustb login");
-
-	NotifyNotification *notify = notify_notification_new("ustb login",
-			"daemon is about to start", "/opt/YuzuClock/yuzu-logo.png");
-    notify_notification_set_timeout(notify, 3000); /* 3 seconds */
-
-    if (!notify_notification_show(notify, NULL))
-    {
-        perror("notification show has failed");
-        return -1;
-    }
-
 	/* daemon starts here */
 	if (daemon(1, 1) < 0)
 	{
