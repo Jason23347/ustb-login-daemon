@@ -13,10 +13,10 @@ INCLUDE_DIRECTORIES(
 
 AUX_SOURCE_DIRECTORY(src DIR_SRCS)
 
-SET(hex
+SET(ustblogind
 ${DIR_SRCS}
 )
 
-ADD_EXECUTABLE(${PROJECT_NAME} ${hex})
+ADD_EXECUTABLE(${PROJECT_NAME} ${ustblogind})
 
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} pthread readline notify glib-2.0 curl)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} readline curl notify)

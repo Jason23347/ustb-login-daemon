@@ -2,6 +2,7 @@
 #define LOG_H
 
 #include <stdio.h>
+#include <time.h>
 
 FILE *log_stream;
 

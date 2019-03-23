@@ -24,6 +24,7 @@ __debug (FILE *__restrict__ __stream, const char *__fmt, ...)
 
 #define debug(fmt, ...)
 #define debug_r(file, fmt, ...)
+
 #endif
 
 #endif
