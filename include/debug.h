@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#define DEBUG true
+#define DEBUG false
 
 #if (DEBUG == true)
 
@@ -24,6 +24,7 @@ __debug (FILE *__restrict__ __stream, const char *__fmt, ...)
 
 #define debug(fmt, ...)
 #define debug_r(file, fmt, ...)
+
 #endif
 
 #endif
