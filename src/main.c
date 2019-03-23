@@ -1,0 +1,99 @@
+#include <stdio.h>
+#include <getopt.h>
+#include <stdbool.h>
+#include <curl/curl.h>
+#include <libnotify/notify.h>
+#include <readline/readline.h>
+
+#include "debug.h"
+#include "log.h"
+#include "http_request.h"
+
+int main(int argc, char *argv[])
+{
+	static struct option options[] = {
+		{"no-ipv6", no_argument, NULL, 'n'},
+	};
+	int index = 0;
+	char opt;
+
+	/* default settings */
+	bool has_ipv6 = true;
+	int time_gap = 60;
+
+	while ((opt = getopt_long(argc, argv, "nt:", options, &index)) > 0){
+		switch (opt) {
+			case 'n':
+				has_ipv6 = false;
+				break;
+			case 't':
+				time_gap = atof(optarg);
+				if (time_gap < 10) {
+					printf("time gap should be larger than 9.\n");
+					exit(1);
+				}
+				break;
+			case '?':
+				break;
+			default:
+				debug("getopt returned character code 0%o\n", opt);
+		}
+	}
+
+	debug((has_ipv6) ? "has ipv6" : "no ipv6");
+	debug("time gap is: %d", time_gap);
+
+	/* input username and password */
+	char *username, *password;
+	username = readline("username:");
+	/* TODO: no echoing when input password */
+	password = readline("password:");
+
+	/* gnome desktop notification */
+	notify_init("ustb login");
+
+	NotifyNotification *notify = notify_notification_new("ustb login",
+			"daemon is about to start", "/opt/YuzuClock/yuzu-logo.png");
+    notify_notification_set_timeout(notify, 3000); /* 3 seconds */
+
+    if (!notify_notification_show(notify, NULL))
+    {
+        perror("notification show has failed");
+        return -1;
+    }
+
+	/* daemon starts here */
+	if (daemon(1, 1) < 0)
+	{
+		perror("create daemon\n");
+		exit(1);
+	}
+
+	write_log("daemon started.");
+
+	char data[256];
+	sprintf(data, "DDDDD=%s&upass=%s&0MKKey=123456789&v6ip=", username, password);
+	if (has_ipv6) {
+		strcat(data, get_ipv6_addr());
+	}
+
+	debug("data: %s", data);
+
+#if (DEBUG == true)
+	int times = 0;
+#endif
+
+	while (true) {
+		post_login(data);
+		
+#if (DEBUG == true)
+		debug("rendered for %d time(s)", times);
+		if (++times > 2)
+			break;
+#endif
+		/* TODO: reset time gap with response code */
+		sleep(time_gap);
+	}
+
+	return 0;
+}
