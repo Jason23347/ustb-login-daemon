@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include <curl/curl.h>
 #include <string.h>
 
@@ -18,7 +17,7 @@ size_t write_data(void *buffer, size_t size, size_t nmemb, void *stream)
     return size * nmemb;
 }
 
-/** return empty string if curl failed. */
+/* return empty string if curl failed. */
 char *get_ipv6_addr()
 {
     char buf[CURL_BUFFER_MAX_SIZE] = "";
@@ -37,6 +36,7 @@ char *get_ipv6_addr()
     }else if (res != CURLE_OK) {
         perror(curl_easy_strerror(res));
         write_log("get ipv6 address failed: %s", curl_easy_strerror(res));
+        return "";
     }
     curl_easy_cleanup(curl);
 
@@ -64,7 +64,7 @@ int post_login(char *data)
     }
     curl_easy_cleanup(curl);
 
-    /* TODO: check whether login  successed */
+    /* TODO: check whether login successed */
 
     return 0;
 }

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <getopt.h>
-#include <stdbool.h>
 #include <curl/curl.h>
 #include <libnotify/notify.h>
 #include <readline/readline.h>
@@ -18,20 +17,22 @@ int main(int argc, char *argv[])
 	char opt;
 
 	/* default settings */
-	bool has_ipv6 = true;
+	short has_ipv6 = 1;
 	int time_gap = 60;
 
 	while ((opt = getopt_long(argc, argv, "nt:", options, &index)) > 0){
 		switch (opt) {
 			case 'n':
-				has_ipv6 = false;
+				has_ipv6 = 0;
 				break;
 			case 't':
 				time_gap = atof(optarg);
+#if (DEBUG != 1)
 				if (time_gap < 10) {
 					printf("time gap should be larger than 9.\n");
 					exit(1);
 				}
+#endif
 				break;
 			case '?':
 				break;
@@ -55,6 +56,19 @@ int main(int argc, char *argv[])
 		perror("create daemon\n");
 		exit(1);
 	}
+
+	/* gnome desktop notification */
+	notify_init("ustb login");
+
+	NotifyNotification *notify = notify_notification_new("ustb login",
+			"daemon is about to start", "/opt/YuzuClock/yuzu-logo.png");
+    notify_notification_set_timeout(notify, 3000); /* 3 seconds */
+
+    if (!notify_notification_show(notify, NULL))
+    {
+        perror("notification show has failed");
+        return -1;
+    }
 
 	write_log("daemon started.");
 

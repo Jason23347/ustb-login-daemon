@@ -3,14 +3,14 @@
 
 #include <stdio.h>
 
-#define DEBUG false
+#define DEBUG 1
 
-#if (DEBUG == true)
+#if (DEBUG == 1)
 
 #define DEBUG_BUFFER_MAX_SIZE 0x00ff
 
 #define debug(fmt, ...) __debug(stdout, fmt, ##__VA_ARGS__)
-#define debug_r(file, fmt, ...) __debug(file, fmt, ##__VA_ARGS__)
+#define debug_r(stream, fmt, ...) __debug(stream, fmt, ##__VA_ARGS__)
 
 __fortify_function int
 __debug (FILE *__restrict__ __stream, const char *__fmt, ...)
@@ -23,7 +23,7 @@ __debug (FILE *__restrict__ __stream, const char *__fmt, ...)
 #else
 
 #define debug(fmt, ...)
-#define debug_r(file, fmt, ...)
+#define debug_r(stream, fmt, ...)
 
 #endif
 
