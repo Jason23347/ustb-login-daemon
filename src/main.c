@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include <getopt.h>
 #include <curl/curl.h>
 #include <readline/readline.h>
@@ -16,7 +18,7 @@ int main(int argc, char *argv[])
 	char opt;
 
 	/* default settings */
-	bool has_ipv6 = 1;
+	short has_ipv6 = 1;
 	int time_gap = 60;
 
 	while ((opt = getopt_long(argc, argv, "nt:", options, &index)) > 0){
