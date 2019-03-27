@@ -3,9 +3,9 @@
 
 #include <stdio.h>
 
-#define DEBUG false
+#define DEBUG 0
 
-#if (DEBUG == true)
+#if (DEBUG == 1)
 
 #define DEBUG_BUFFER_MAX_SIZE 0x00ff
 

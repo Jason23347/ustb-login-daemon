@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <getopt.h>
-#include <stdbool.h>
 #include <curl/curl.h>
 #include <libnotify/notify.h>
 #include <readline/readline.h>
@@ -18,13 +17,13 @@ int main(int argc, char *argv[])
 	char opt;
 
 	/* default settings */
-	bool has_ipv6 = true;
+	bool has_ipv6 = 1;
 	int time_gap = 60;
 
 	while ((opt = getopt_long(argc, argv, "nt:", options, &index)) > 0){
 		switch (opt) {
 			case 'n':
-				has_ipv6 = false;
+				has_ipv6 = 0;
 				break;
 			case 't':
 				time_gap = atof(optarg);
@@ -66,14 +65,14 @@ int main(int argc, char *argv[])
 
 	debug("data: %s", data);
 
-#if (DEBUG == true)
+#if (DEBUG == 1)
 	int times = 0;
 #endif
 
-	while (true) {
+	while (1) {
 		post_login(data);
 		
-#if (DEBUG == true)
+#if (DEBUG == 1)
 		debug("rendered for %d time(s)", times);
 		if (++times > 2)
 			break;
