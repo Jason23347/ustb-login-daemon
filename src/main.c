@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <getopt.h>
 #include <curl/curl.h>
-#include <libnotify/notify.h>
 #include <readline/readline.h>
 
 #include "debug.h"
